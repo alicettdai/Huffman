@@ -40,7 +40,7 @@ public class HuffProcessor {
 		HuffNode root = makeTreeFromCounts(numOccurences);
 		System.out.println("Step 2 done");
 		//step 3 make a code of tree traversals throughout the Huffman tree
-		String[] codings = makeCodingsFromTree(root, "", new String[257]);
+		String[] codings = makeCodingsFromTree(root);
 		System.out.println("Codings size is " + codings.length);
 		System.out.println("Step 3 done");
 		//step 4 write the header part that includes the magic number and the tree in preorder traversal
@@ -104,17 +104,21 @@ public class HuffProcessor {
 		return root;
 		}
 	
+	public String[] makeCodingsFromTree(HuffNode root) {
+		String[] codings = new String[257];
+		return makeCodingsFromTreeHelper(root, "", codings);
+	}
 	/**
 	 * compress helper method that makes a binary string representation for the stuff HuffNode
 	 * this is recursive
 	 * @param root
 	 * @return a StringArray of mappings, where the index is the letter/number and the value is the tree traversal of that letter/number
 	 */
-	public String[] makeCodingsFromTree(HuffNode root, String path, String[] codings) {
+	public String[] makeCodingsFromTreeHelper(HuffNode root, String path, String[] codings) {
 		if (root==null) return codings; 
 		if (root.left()==null && root.right()==null) codings[root.value()]=path; //at leaf node, remember 256 is value of PSEUDO_EOF
-		if (root.right()!=null) return makeCodingsFromTree(root.right(), path + "1", codings); //traversing and adding to the code
-		if (root.left()!=null) return makeCodingsFromTree(root.left(),path+"0", codings); //traversing and adding to the code
+		if (root.right()!=null) return makeCodingsFromTreeHelper(root.right(), path + "1", codings); //traversing and adding to the code
+		if (root.left()!=null) return makeCodingsFromTreeHelper(root.left(),path+"0", codings); //traversing and adding to the code
 		return codings;
 	}
 	
