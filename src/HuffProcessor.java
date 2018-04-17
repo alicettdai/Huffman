@@ -35,22 +35,14 @@ public class HuffProcessor {
 	public void compress(BitInputStream in, BitOutputStream out){
 	   //step 1 find the number of occurrences of each character
 		int[] numOccurences = readForCounts(in);
-		System.out.println("Step 1 done");
 		//step 2 make a Huffman tree using this weighting information
 		HuffNode root = makeTreeFromCounts(numOccurences);
-		System.out.println("Step 2 done");
 		//step 3 make a code of tree traversals throughout the Huffman tree
 		String[] codings = makeCodingsFromTree(root);
-		System.out.println("Codings size is " + codings.length);
-		System.out.println("Step 3 done");
 		//step 4 write the header part that includes the magic number and the tree in preorder traversal
 	    writeHeader(root, out);
-		System.out.println("Step 4 done");
 	    //step 5 reset the text to the beginning an then write the compression, taking 8bits, finding its coding in the huffman tree, then turning that into a bit representation
-	    in.reset();
-		System.out.println("Step 5 started");
 	    writeCompressedBits(codings, in, out);
-		System.out.println("Step 5 ended");
 	}
 	
 	/**
@@ -59,7 +51,7 @@ public class HuffProcessor {
 	 * 
 	 * @return int[] of size 256 that stores all the number of occurrences of each indexed character
 	 */
-	public int[] readForCounts(BitInputStream in) {
+	private int[] readForCounts(BitInputStream in) {
 		int[] numOccurrences = new int[256]; //REVISIT
 		int val=0;
 		while(true) {
@@ -80,7 +72,7 @@ public class HuffProcessor {
 	 * 
 	 * @return HuffNode
 	 */
-	public HuffNode makeTreeFromCounts(int[] numOccurrences) {
+	private HuffNode makeTreeFromCounts(int[] numOccurrences) {
 		PriorityQueue<HuffNode> HuffQueue = new PriorityQueue<>(); //sort the HuffNodes into PQs, removes smallest weights
 		
 		//make nodes and add them to a priority queue
@@ -104,7 +96,7 @@ public class HuffProcessor {
 		return root;
 		}
 	
-	public String[] makeCodingsFromTree(HuffNode root) {
+	private String[] makeCodingsFromTree(HuffNode root) {
 		String[] codings = new String[257];
 		return makeCodingsFromTreeHelper(root, "", codings);
 	}
@@ -114,11 +106,11 @@ public class HuffProcessor {
 	 * @param root
 	 * @return a StringArray of mappings, where the index is the letter/number and the value is the tree traversal of that letter/number
 	 */
-	public String[] makeCodingsFromTreeHelper(HuffNode root, String path, String[] codings) {
+	private String[] makeCodingsFromTreeHelper(HuffNode root, String path, String[] codings) {
 		if (root==null) return codings; 
 		if (root.left()==null && root.right()==null) codings[root.value()]=path; //at leaf node, remember 256 is value of PSEUDO_EOF
-		if (root.right()!=null) return makeCodingsFromTreeHelper(root.right(), path + "1", codings); //traversing and adding to the code
-		if (root.left()!=null) return makeCodingsFromTreeHelper(root.left(),path+"0", codings); //traversing and adding to the code
+		if (root.right()!=null) makeCodingsFromTreeHelper(root.right(), path + "1", codings); //traversing and adding to the code
+		if (root.left()!=null) makeCodingsFromTreeHelper(root.left(),path+"0", codings); //traversing and adding to the code
 		return codings;
 	}
 	
@@ -127,7 +119,7 @@ public class HuffProcessor {
 	 * @param root
 	 * @param out
 	 */
-	public void writeHeader(HuffNode root, BitOutputStream out) {
+	private void writeHeader(HuffNode root, BitOutputStream out) {
 		//step 1: writing the 32 bit magic HUFF_TREE number 
 		out.writeBits(BITS_PER_INT, HUFF_TREE);
 		
@@ -140,7 +132,7 @@ public class HuffProcessor {
 	 * @param root
 	 * @param out
 	 */
-	public void writeTree(HuffNode root, BitOutputStream out) {
+	private void writeTree(HuffNode root, BitOutputStream out) {
 		//base cases
 		if (root==null) return;
 		if (root.left()==null && root.right()==null) { //at leaf node
@@ -166,14 +158,12 @@ public class HuffProcessor {
  * @param in
  * @param out
  */
-	public void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
-		//in.reset(); //reset the inputStream so we can compress the file from the beginning
-		System.out.println("Size of codings is " + codings.length);
+	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
+		in.reset(); //reset the inputStream so we can compress the file from the beginning
 		int current;
 		String code;
 		while (true) {
 		current = in.readBits(BITS_PER_WORD);
-		System.out.println("Current is " + current);
 		if (current==-1) { 
 			code=codings[PSEUDO_EOF]; //writing the PSEUDO_EOF end
 			out.writeBits(code.length(), Integer.parseInt(code,2)); //the idea is to turn the string into an integer with parseInt and then turning it into bit representation 
@@ -181,7 +171,6 @@ public class HuffProcessor {
 		}
 		else {
 			code = codings[current]; //finds the string representation of this letter through the tree
-			System.out.println("Code is " + codings[current]);
 			out.writeBits(code.length(), Integer.parseInt(code,2)); 
 		}
 		}
@@ -199,11 +188,9 @@ public class HuffProcessor {
 	public void decompress(BitInputStream in, BitOutputStream out){
 	    //step 1: read the 32 bit magic number to check if the file is able to to be decompressed by our decompressor
 		int id= in.readBits(BITS_PER_INT);
-		if (id!=(HUFF_TREE)) throw new HuffException("not the magic number"); //not equal means file is not a compressed file
-		
+		if (id!=(HUFF_TREE)) throw new HuffException("not the magic number"); //not equal means file is not a compressed file	
 		//step 2: make the tree
 		HuffNode root = readTreeHeader(in);
-		
 		//step 3: traverse the tree and read the decompress the file
 	    readCompressedBits(root,in,out);
 	}
@@ -214,7 +201,7 @@ public class HuffProcessor {
 	 * @param in
 	 * @return a HuffNode that's the root of the Huffman tree
 	 */
-	public HuffNode readTreeHeader(BitInputStream in) {
+	private HuffNode readTreeHeader(BitInputStream in) {
 		//read one bit and check the value
 		int bitVal = in.readBits(1);
 		if (bitVal == -1) throw new NullPointerException("Nothing read"); // signal error, nothing read
@@ -236,7 +223,7 @@ public class HuffProcessor {
 	 *once you've created your tree, it's time to decode the compressed algorithm 
 	 * @param header
 	 */
-	public void readCompressedBits(HuffNode root, BitInputStream in, BitOutputStream out) { //the third part of the compressed string of numbers
+	private void readCompressedBits(HuffNode root, BitInputStream in, BitOutputStream out) { //the third part of the compressed string of numbers
 		HuffNode pointer = root;
 		int currentBit;
 		while(pointer.value()!=PSEUDO_EOF) {
