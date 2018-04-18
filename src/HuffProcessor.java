@@ -42,6 +42,7 @@ public class HuffProcessor {
 		//step 4 write the header part that includes the magic number and the tree in preorder traversal
 	    writeHeader(root, out);
 	    //step 5 reset the text to the beginning an then write the compression, taking 8bits, finding its coding in the huffman tree, then turning that into a bit representation
+	    in.reset();
 	    writeCompressedBits(codings, in, out);
 	}
 	
@@ -56,7 +57,6 @@ public class HuffProcessor {
 		int val=0;
 		while(true) {
 		val = in.readBits(BITS_PER_WORD); //reads the next 8 bits and translates that into its numerical equivalent
-		System.out.println("Val is " + val);
 		if (val!=-1) numOccurrences[val]++; //counter
 		else break; //we've ended the file
 		}
