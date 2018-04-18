@@ -140,12 +140,9 @@ public class HuffProcessor {
 			out.writeBits(BITS_PER_WORD+1,root.value()); //if it's a leaf, also write a 9 bit sequence that corresponds to the value of the leaf
 		}
 		//recursion in PREORDER TRAVERSAL
-		if(root.left()!=null) {
+		if(root.left()!=null || root.right()!=null) {
 			out.writeBits(1, 0); //internal nodes have a value of 0
 			writeTree(root.left(),out);
-		}
-		if(root.right()!=null) {
-			out.writeBits(1, 0); //internal nodes have a value of 0
 			writeTree(root.right(),out);
 		}
 	}
