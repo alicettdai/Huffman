@@ -235,7 +235,7 @@ public class HuffProcessor {
 			else pointer=pointer.right(); //if you get a one, go right
 			//once you get to a leaf
 			if (pointer.left()==null && pointer.right()==null) {
-				if (pointer.value()==PSEUDO_EOF) break; //if we get to the end of the file
+				if (pointer.value()==PSEUDO_EOF) return; //if we get to the end of the file
 				else {
 				out.writeBits(BITS_PER_WORD,pointer.value()); //writes the value in 8 bits
 				pointer = root; //start back at the beginning
