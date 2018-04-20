@@ -1,6 +1,6 @@
 Name: Alice Dai
 NetID: ad322
-Hours Spent: 8.2
+Hours Spent: 10.2
 Consulted With: Charles Lyu, TA
 Resources Used: I only read the materials given in class and on the google doc 
 Impressions: Useful project, clear instructions, good walk-through of a famous algorithm that helped me understand a concept that's probably used a lot in the 
