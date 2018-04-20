@@ -4,6 +4,8 @@ Hours Spent: 10.2
 Consulted With: Charles Lyu, TA
 Resources Used: I only read the materials given in class and on the google doc 
 Impressions: Useful project, clear instructions, good walk-through of a famous algorithm that helped me understand a concept that's probably used a lot in the real world
+Note: This assignment is late because I accidentally made my variable alphSize public instead of private, and I forgot to resubmit this small modification since Gradescope requires
+a 15 minute wait time between submissions. I talked to Professor Forbes about this and he told me to resubmit without the late penalty, so I'm writing this note here. 
 ----------------------------------------------------------------------
 Problem 1: Describe testing
 Added an empty .rtf file to make sure that for files with no characters, the compress and decompress would still work. Also, tested a file with emojis just to see what would happen, and decompress
