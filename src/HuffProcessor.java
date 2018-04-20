@@ -20,7 +20,7 @@ public class HuffProcessor {
 	public static final int HUFF_NUMBER = 0xface8200;
 	public static final int HUFF_TREE  = HUFF_NUMBER | 1;
 	public static final int HUFF_COUNTS = HUFF_NUMBER | 2;
-	public int alphSize;
+	private int alphSize;
 
 	public enum Header{TREE_HEADER, COUNT_HEADER};
 	public Header myHeader = Header.TREE_HEADER;
