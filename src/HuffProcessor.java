@@ -127,7 +127,7 @@ public class HuffProcessor {
 		//step 2: writing the pre-order traversal, recursively. Good to have a helper method
 		alphSize=0;
 		writeTree(root,out);
-		System.out.println("alphSize is" + alphSize);
+		//System.out.println("alphSize is" + alphSize);
 	}
 	/**
 	 * Helper method for writeHeader that recursively writes the huffTree, preOrder traversal 
