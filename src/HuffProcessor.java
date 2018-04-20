@@ -20,6 +20,7 @@ public class HuffProcessor {
 	public static final int HUFF_NUMBER = 0xface8200;
 	public static final int HUFF_TREE  = HUFF_NUMBER | 1;
 	public static final int HUFF_COUNTS = HUFF_NUMBER | 2;
+	public int alphSize;
 
 	public enum Header{TREE_HEADER, COUNT_HEADER};
 	public Header myHeader = Header.TREE_HEADER;
@@ -34,9 +35,9 @@ public class HuffProcessor {
 	 */
 	public void compress(BitInputStream in, BitOutputStream out){
 	   //step 1 find the number of occurrences of each character
-		int[] numOccurences = readForCounts(in);
+		int[] numOccurrences = readForCounts(in);
 		//step 2 make a Huffman tree using this weighting information
-		HuffNode root = makeTreeFromCounts(numOccurences);
+		HuffNode root = makeTreeFromCounts(numOccurrences);
 		//step 3 make a code of tree traversals throughout the Huffman tree
 		String[] codings = makeCodingsFromTree(root);
 		//step 4 write the header part that includes the magic number and the tree in preorder traversal
@@ -124,9 +125,10 @@ public class HuffProcessor {
 		out.writeBits(BITS_PER_INT, HUFF_TREE);
 		
 		//step 2: writing the pre-order traversal, recursively. Good to have a helper method
+		alphSize=0;
 		writeTree(root,out);
+		System.out.println("alphSize is" + alphSize);
 	}
-	
 	/**
 	 * Helper method for writeHeader that recursively writes the huffTree, preOrder traversal 
 	 * @param root
@@ -136,6 +138,7 @@ public class HuffProcessor {
 		//base cases
 		if (root==null) return;
 		if (root.left()==null && root.right()==null) { //at leaf node
+			alphSize++;
 			out.writeBits(1,1); //leaf nodes have a value of 1
 			out.writeBits(BITS_PER_WORD+1,root.value()); //if it's a leaf, also write a 9 bit sequence that corresponds to the value of the leaf
 		}

@@ -241,6 +241,18 @@ public class HuffViewer {
 		
 		holder.getChildren().add(info);
 
+		for (Node n : holder.getChildren()) {
+			if (n instanceof Text) {
+				Text t = (Text) n;
+				System.out.println(t.getText());
+			} else if (n instanceof VBox) {
+				VBox v = (VBox) n;
+				for (Node n2 : v.getChildren()) {
+					System.out.println(((Text)n2).getText());
+				}
+			}
+		}
+		
 		return holder;
 	}
 

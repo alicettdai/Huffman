@@ -1,11 +1,512 @@
-Name: firstname lastname
-NetID: abc123
-Hours Spent: Give an exact (decimal) number here
-Consulted With: provide names or NetIDs of any students, TAs, or professors you consulted with on the assignment. If you did not consult with anyone, you must explicitly write NONE.
-Resources Used: Any books, papers, or online resources. If you did not use any outside resources, you must explicitly write NONE 
-Impressions: Your answer here
+Name: Alice Dai
+NetID: ad322
+Hours Spent: 8.2
+Consulted With: Charles Lyu, TA
+Resources Used: I only read the materials given in class and on the google doc 
+Impressions: Useful project, clear instructions, good walk-through of a famous algorithm that helped me understand a concept that's probably used a lot in the 
 ----------------------------------------------------------------------
 Problem 1: Describe testing
+Added an empty .rtf file to make sure that for files with no characters, the compress and decompress would still work. Also, tested a file with emojis just to see what would happen, and decompress
+and compress worked as well. Tested all the files in the given data folder, so tested .tif, .txt, .slx, .png, files without extensions, all worked. Calgary, Waterloo and Canterbury were also all tested
+in the tester tab. The assignment introduction mentioned that Huffman is still used for a lot of mp3 files, so I downloaded a music video off of YouTube (Maggie Nelson's Alaska), compressed the mp3,
+then decompressed it and listened to the decompressed version on iTunes, and verified that my compression and decompression algorithms both worked since the song sounded like the original. I noticed that 
+for the mp3 compression, the file wasn't really reduced all that much, I saved less than a percent of space. This makes me wonder why this is the case, if mp3 files are especially data heavy and data 
+variant, and if terhe is a better way to implement methods in Huffman that would make the compression more efficient. I also decompressed mystery.tif and got a frog, which I then compared with the given
+froggy.tif, and they were verified to be identical.
+----------------------------------------------------------------------
 Problem 2: Benchmark and analyze your code
-Problem 3: Text vs. Binary 
+Compression rate is the size of the compressed file divided by the size of the original file, which represents the amount that a file can be compressed, which we want to maximize when writing a compression
+algorithm, which means the lower the compression rate the better, since that means we've compressed a lot. 
+
+Before benchmarking Calgary and Waterloo, I added an alphSize counter to count the number of non zero character counts. When benchmarking Calgary, the compression rates for the sixteen files were:
+File: bib
+Compression rate: 0.655
+time: .005s
+alphSize: 82
+file length: 111261 bytes
+
+File: book1
+Compression rate: 0.570
+time: .038s
+alphSize: 83
+file length: 768771 bytes
+
+File: book2
+Compression rate: 0.603
+time: .026s
+alphSize: 97
+file length: 610586 bytes
+
+File: geo 
+Compression rate: 0.712
+time: .005s
+alphSize: 257
+file length: 102400 bytes
+
+File: news
+Compression rate: 0.654
+time: 0.017s
+alphSize: 99
+file length: 377109 bytes
+
+File: obj1
+Compression rate: 0.763
+time: 0.001s
+alphSize: 257
+file length: 21504 bytes
+
+File: obj2
+Compression rate: 0.788
+time: 0.01s
+alphSize: 257
+file length: 246814 bytes
+
+File: paper 1
+Compression rate: 0.630
+time: 0.003s
+alphSize: 96
+file length: 53161 bytes
+
+File: paper 2
+Compression rate: 0.581
+time: 0.003
+alphSize: 92
+file length: 82199 bytes
+
+File: paper 3
+Compression rate: 0.589
+time: .001s
+alphSize: 85
+file length: 46526 bytes
+
+File: paper 6
+Compression rate: 0.634
+time: .002s 
+alphSize: 94
+file length: 38105 bytes
+
+File: pic
+Compression rate: 0.209
+time: .011s
+alphSize: 160
+file length: 513216 bytes
+
+File: progc
+Compression rate: 0.658
+time: 0.002s
+alphSize: 93
+file length: 39611 bytes
+
+File: progl
+Compression rate: 0.602
+time: 0.003s
+alphSize: 88
+file length: 716464 bytes
+
+File: prog p
+Compression rate: 0.615
+time: 0.002s
+alphSize: 90
+file length: 49379 bytes
+
+File: trans
+Compression rate: 0.698
+time: 0.004s
+alphSize: 100
+file length: 93695 bytes
+
+For Waterloo,
+barb.tif -> barb.tif.hf
+	Time: 0.027s
+	Original length: 262274 bytes
+	alphSize: 231
+	Compression Rate: 0.938
+
+bird.tif -> bird.tif.hf
+	Time: 0.005s
+	Original length: 65666 bytes
+	alphSize: 156
+	Compression Rate: 0.855
+
+boat.tif -> boat.tif.hf
+	Time: 0.013s
+	Original length: 262274 bytes
+	alphSize: 231
+	Compression Rate: 0.895
+
+bridge.tif -> bridge.tif.hf
+	Time: 0.005s
+	Original length: 65666 bytes
+	alphSize: 257
+	Compression Rate: 0.968
+
+camera.tif -> camera.tif.hf
+	Time: 0.005s
+	Original length: 65666 bytes
+	alphSize: 254
+	Compression Rate: 0.887
+
+circles.tif -> circles.tif.hf
+	Time: 0.002s
+	Original length: 65666 bytes
+	alphSize: 21
+	Compression Rate: 0.242
+
+clegg.tif -> clegg.tif.hf
+	Time: 0.092s
+	Original length: 2149096 bytes
+	alphSize: 257
+	Compression Rate: 0.946
+
+crosses.tif -> crosses.tif.hf
+	Time: 0.002s
+	Original length: 65666 bytes
+	alphSize: 19
+	Compression Rate: 0.130
+
+france.tif -> france.tif.hf
+	Time: 0.012s
+	Original length: 333442 bytes
+	alphSize: 250
+	Compression Rate: 0.780
+
+frog.tif -> frog.tif.hf
+	Time: 0.013s
+	Original length: 309388 bytes
+	alphSize: 117
+	Compression Rate: 0.630
+
+frymire.tif -> frymire.tif.hf
+	Time: 0.129s
+	Original length: 3706306 bytes
+	alphSize: 186
+	Compression Rate: 0.590
+
+goldhill.tif -> goldhill.tif.hf
+	Time: 0.003s
+	Original length: 65666 bytes
+	alphSize: 227
+	Compression Rate: 0.942
+
+horiz.tif -> horiz.tif.hf
+	Time: 0.001s
+	Original length: 65666 bytes
+	alphSize: 25
+	Compression Rate: 0.150
+
+library.tif -> library.tif.hf
+	Time: 0.006s
+	Original length: 163458 bytes
+	alphSize: 227
+	Compression Rate:  0.740
+
+mandrill.tif -> mandrill.tif.hf
+	Time: 0.01s
+	Original length: 262274 bytes
+	alphSize: 227
+	Compression Rate: 0.924
+
+monarch.tif -> monarch.tif.hf
+	Time: 0.051s
+	Original length: 1179784 bytes
+	alphSize: 254
+	Compression Rate: 0.940
+
+mountain.tif -> mountain.tif.hf
+	Time: 0.012s
+	Original length: 307330 bytes
+	alphSize: 118
+	Compression Rate: 0.782
+
+peppers.tif -> peppers.tif.hf
+	Time: 0.033s
+	Original length: 786568 bytes
+	alphSize: 256
+	Compression Rate: 0.962
+
+sail.tif -> sail.tif.hf
+	Time: 0.052s
+	Original length: 1179784 bytes
+	alphSize: 252
+	Compression Rate: 0.920
+
+serrano.tif -> serrano.tif.hf
+	Time: 0.055s
+	Original length: 1498414 bytes
+	alphSize: 238
+	Compression Rate: 0.752
+
+slope.tif -> slope.tif.hf
+	Time: 0.003s
+	Original length: 65666 bytes
+	alphSize: 249
+	Compression Rate: 0.950
+
+squares.tif -> squares.tif.hf
+	Time: 0.002s
+	Original length: 65666 bytes
+	alphSize: 21
+	Compression Rate: 0.1711
+
+text.tif -> text.tif.hf
+	Time: 0.001s
+	Original length: 65666 bytes
+	alphSize: 18
+	Compression Rate: .139
+
+tulips.tif -> tulips.tif.hf
+	Time: 0.052s
+	Original length: 1179784 bytes
+	alphSize: 254
+	Compression Rate: 0.962
+
+washsat.tif -> washsat.tif.hf
+	Time: 0.009s
+	Original length: 262274 bytes
+	alphSize: 51 
+	Compression Rate: 0.364
+
+zelda.tif -> zelda.tif.hf
+	Time: 0.01s
+	Original length: 262274 bytes
+	alphSize: 188
+	Compression Rate: 0.913
+	
+After benchmarking Waterloo and Calgary, I noticed some general trends. The first one is that alphSize has a much smaller, almost negligible affect on the run time whereas original file length is almost directly 
+proportional to the runtime, where larger files takes more time to compress than smaller files do, regardless of alphSize. Looking at two files obj1 and obj 2. Both files have the same alphSize of 247, except obj1 is 
+an order of magnitude shorter than obj1, and it happens that time for obj1 is 0.001 and for obj2 is 0.01, which is also an order of magnitude difference. As for compression rate, the files with smaller alphSizes had very
+good compression rates (remember, the lower the compression rate the more compressed the file, which is a good thing), and the files with higher compression rates had alphSizes closer to the maximum alphSize value, 
+which is 257. This makes  sense, since if you have a large file with many repeated characters, Huffman will be very effective since the tree will be short and the bit size for each character can be reduced heavily. 
+Just look at files like text.tif (alphSize 18) and goldhill.tif (alphSize 227), both files which have 65666 original file length, and compare their compression rates (0.139 vs. 0.942) and you can see that alphSize and 
+compression rates are directly proportional, and that file length doesn't have as much of an impact on compression rate, at least not enough for the three decimal place time stamp, although theoretically long file lengths
+and small alphSizes will be best compressed in a Huffman tree.  
+
+----------------------------------------------------------------------
+Problem 3: Text vs. Binary
+Overall, text files compress more than image files do. Just comparing Calgary (text) and Waterloo (image), the overall compression rate for Calgary is 0.562 whereas the overall compression rate for Waterloo is 0.790,
+and when looking at individual file rates for both directories, it's clear that image files generally have a large alphSize and therefore it makes sense that they would have a larger compression rates, since as I noticed 
+in question 1, the larger the alphSize the larger the compression rate. This is because the closer the alphSize is to 257 (max), the less compressible the file will be because all the 256 8-bit values that make up the characters
+in a file will be populated at least once in the file, will have a node in the HuffTree, and will generally just be taking up space. However, with the smaller alphSizes that come with text files, the bit/occurence rate will be 
+maximized and in general there will be less 8-bit occurrences in the file, less nodes in the HuffTree and the text file takes up less space. 
+
+---------------------------------------------------------------------- 
 Problem 4: Compressing compressed files
+
+Compressing compressed files gives you a .hf.hf extension, and I tested the question out on the Calgary directory: 
+
+Total time: 0.176s
+Total original length: 3583723 bytes
+Total new length: 3541733 bytes
+Percent space saved: 1.17%
+
+.DS_Store.hf -> .DS_Store.hf.hf
+	Time: 0.0s
+	Original length: 853 bytes
+	New length: 384 bytes
+	Percent space saved 54.98%
+
+.DS_Store.hf.hf -> .DS_Store.hf.hf.hf
+	Time: 0.005s
+	Original length: 384 bytes
+	New length: 562 bytes
+	Percent space saved 23.52%
+
+bib.hf -> bib.hf.hf
+	Time: 0.005s
+	Original length: 72880 bytes
+	New length: 72242 bytes
+	Percent space saved 1.25%
+
+bib.hf.hf -> bib.hf.hf.hf
+	Time: 0.003s
+	Original length: 72242 bytes
+	New length: 72617 bytes
+	Percent space saved 0.38%
+
+book1.hf -> book1.hf.hf
+	Time: 0.022s
+	Original length: 438495 bytes
+	New length: 433178 bytes
+	Percent space saved 1.00%
+
+book1.hf.hf -> book1.hf.hf.hf
+	Time: 0.018s
+	Original length: 433178 bytes
+	New length: 433691 bytes
+	Percent space saved 0.53%
+
+book2.hf -> book2.hf.hf
+	Time: 0.017s
+	Original length: 368440 bytes
+	New length: 366363 bytes
+	Percent space saved 0.54%
+
+book2.hf.hf -> book2.hf.hf.hf
+	Time: 0.016s
+	Original length: 366363 bytes
+	New length: 366848 bytes
+	Percent space saved 0.40%
+
+geo.hf -> geo.hf.hf
+	Time: 0.004s
+	Original length: 72917 bytes
+	New length: 72887 bytes
+	Percent space saved 0.38%
+
+geo.hf.hf -> geo.hf.hf.hf
+	Time: 0.003s
+	Original length: 72887 bytes
+	New length: 73268 bytes
+	Percent space saved 0.35%
+
+news.hf -> news.hf.hf
+	Time: 0.012s
+	Original length: 246536 bytes
+	New length: 245458 bytes
+	Percent space saved 0.36%
+
+news.hf.hf -> news.hf.hf.hf
+	Time: 0.01s
+	Original length: 245458 bytes
+	New length: 245886 bytes
+	Percent space saved 0.30%
+
+obj1.hf -> obj1.hf.hf
+	Time: 0.001s
+	Original length: 16411 bytes
+	New length: 16541 bytes
+	Percent space saved 0.30%
+
+obj1.hf.hf -> obj1.hf.hf.hf
+	Time: 0.001s
+	Original length: 16541 bytes
+	New length: 16891 bytes
+	Percent space saved 0.28%
+
+obj2.hf -> obj2.hf.hf
+	Time: 0.008s
+	Original length: 194456 bytes
+	New length: 193343 bytes
+	Percent space saved 0.30%
+
+obj2.hf.hf -> obj2.hf.hf.hf
+	Time: 0.007s
+	Original length: 193343 bytes
+	New length: 193765 bytes
+	Percent space saved 0.27%
+
+paper1.hf -> paper1.hf.hf
+	Time: 0.001s
+	Original length: 33475 bytes
+	New length: 33590 bytes
+	Percent space saved 0.26%
+
+paper1.hf.hf -> paper1.hf.hf.hf
+	Time: 0.002s
+	Original length: 33590 bytes
+	New length: 33958 bytes
+	Percent space saved 0.24%
+
+paper2.hf -> paper2.hf.hf
+	Time: 0.002s
+	Original length: 47748 bytes
+	New length: 47584 bytes
+	Percent space saved 0.24%
+
+paper2.hf.hf -> paper2.hf.hf.hf
+	Time: 0.003s
+	Original length: 47584 bytes
+	New length: 47952 bytes
+	Percent space saved 0.23%
+
+paper3.hf -> paper3.hf.hf
+	Time: 0.001s
+	Original length: 27398 bytes
+	New length: 27511 bytes
+	Percent space saved 0.22%
+
+paper3.hf.hf -> paper3.hf.hf.hf
+	Time: 0.002s
+	Original length: 27511 bytes
+	New length: 27871 bytes
+	Percent space saved 0.21%
+
+paper6.hf -> paper6.hf.hf
+	Time: 0.001s
+	Original length: 24158 bytes
+	New length: 24376 bytes
+	Percent space saved 0.20%
+
+paper6.hf.hf -> paper6.hf.hf.hf
+	Time: 0.011s
+	Original length: 24376 bytes
+	New length: 24734 bytes
+	Percent space saved 0.19%
+
+pic.hf -> pic.hf.hf
+	Time: 0.004s
+	Original length: 106777 bytes
+	New length: 71234 bytes
+	Percent space saved 1.30%
+
+pic.hf.hf -> pic.hf.hf.hf
+	Time: 0.004s
+	Original length: 71234 bytes
+	New length: 70304 bytes
+	Percent space saved 1.30%
+
+progc.hf -> progc.hf.hf
+	Time: 0.001s
+	Original length: 26048 bytes
+	New length: 26122 bytes
+	Percent space saved 1.28%
+
+progc.hf.hf -> progc.hf.hf.hf
+	Time: 0.001s
+	Original length: 26122 bytes
+	New length: 26484 bytes
+	Percent space saved 1.26%
+
+progl.hf -> progl.hf.hf
+	Time: 0.002s
+	Original length: 43109 bytes
+	New length: 42425 bytes
+	Percent space saved 1.27%
+
+progl.hf.hf -> progl.hf.hf.hf
+	Time: 0.002s
+	Original length: 42425 bytes
+	New length: 42774 bytes
+	Percent space saved 1.24%
+
+progp.hf -> progp.hf.hf
+	Time: 0.001s
+	Original length: 30344 bytes
+	New length: 30173 bytes
+	Percent space saved 1.23%
+
+progp.hf.hf -> progp.hf.hf.hf
+	Time: 0.001s
+	Original length: 30173 bytes
+	New length: 30531 bytes
+	Percent space saved 1.21%
+
+trans.hf -> trans.hf.hf
+	Time: 0.003s
+	Original length: 65361 bytes
+	New length: 64906 bytes
+	Percent space saved 1.20%
+
+trans.hf.hf -> trans.hf.hf.hf
+	Time: 0.002s
+	Original length: 64906 bytes
+	New length: 65280 bytes
+	Percent space saved 1.17%
+	
+Empirically, it's pretty easy to see that compressing an already compressed file is generally ineffective, and that all of the files have about the same new length and original length. The cost to 
+compressing an already compressed file is time, since compressing a compressed file takes as much time as compressing the file just once. It makes sense that compressing a compressed file in Huffman is not 
+effective, since the compressed file, with its header (magic number and tree) is treated like a part of the actual file and the compressor takes the header from the first compression and then makes
+a new tree out of the header and the rest of the file, which adds length to the doubl-y compressed file and probably throws in some bad information when decompressing since the tree will not be accurate. 
+I'm guessing that to decompress a twice-compressed file, we will have to decompress twice. When I try this however, the second decompression throws a HuffError since it didn't find the magic number
+in the .hf.unhf file, which means that I was right and compressing twice does throw off the tree and the beginning parts of the file which makes compressing twice a mistake and is not to be taken that 
+compressing a file twice makes it extra compressed, just messed up. 
